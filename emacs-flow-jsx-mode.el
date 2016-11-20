@@ -100,9 +100,14 @@ checker. Otherwise returns NIL."
         ;; Methods
         ("\\(.*\\)(.*{" 1 font-lock-variable-name-face)
         ;; Flow Type Annotations
-        ("\\w+<.*>" 0 'flow-jsx-flow-type-annotation)
-        ("void" 0 'flow-jsx-flow-type-annotation)
-        ("(.*\\: \\([A-Z]\w*\\)" 1 'flow-jsx-flow-type-annotation)
+        ("(.*:\\W*\\(.*\\))" 1 'flow-jsx-flow-type-annotation)
+        ("[[:alpha:]][[:alnum:]]+<.+?>" 0 'flow-jsx-flow-type-annotation)
+        ("("
+         (": \\(\\?\\w+\\)" nil nil 1 'flow-jsx-flow-type-annotation)
+         (": \\({.*}\\)" nil nil 1 'flow-jsx-flow-type-annotation)
+         (": \\([[:alpha:]][[:alnum:]]+\\)[,;]" nil nil 1 'flow-jsx-flow-type-annotation)
+         ("):\\s*\\(.*\\) {" nil nil 1 'flow-jsx-flow-type-annotation)
+         )
         ;; JSX
         ("\\S+<\\w+" (0 'flow-jsx-jsx)
          (">" nil nil (0 'flow-jsx-jsx))
