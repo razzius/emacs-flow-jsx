@@ -84,6 +84,7 @@ checker. Otherwise returns NIL."
         ("import \\('.+'\\);" 1 font-lock-string-face)
         ("undefined" 0 font-lock-constant-face)
         ("null" 0 font-lock-constant-face)
+        ("window" 0 font-lock-constant-face)
         ("false" 0 font-lock-constant-face)
         ("true" 0 font-lock-constant-face)
         ("const \\(.+?\\) =" 1 font-lock-variable-name-face)
