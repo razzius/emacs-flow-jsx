@@ -90,6 +90,7 @@ checker. Otherwise returns NIL."
         ("const \\(.+?\\) =" 1 font-lock-variable-name-face)
         ("type \\(.+?\\) =" 1 font-lock-variable-name-face)
         ;; Strings
+        ("`.*`" 0 font-lock-string-face)
         ("'.*'" 0 font-lock-string-face)
         ("\".*\"" 0 font-lock-string-face)
         ;; Classes
