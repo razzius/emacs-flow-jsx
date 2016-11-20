@@ -72,6 +72,9 @@ checker. Otherwise returns NIL."
         "while"
         "let"
         "=>"
+        "return"
+        "function"
+        "static"
         ))
 
 (setq flow-jsx-font-lock-list
