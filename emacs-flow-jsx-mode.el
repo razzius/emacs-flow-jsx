@@ -104,7 +104,7 @@ checker. Otherwise returns NIL."
         ("void" 0 'flow-jsx-flow-type-annotation)
         ("(.*\\: \\([A-Z]\w*\\)" 1 'flow-jsx-flow-type-annotation)
         ;; JSX
-        ("<\\w+" (0 'flow-jsx-jsx)         
+        ("\\S+<\\w+" (0 'flow-jsx-jsx)
          (">" nil nil (0 'flow-jsx-jsx))
          )
         ("/>" 0 'flow-jsx-jsx)
