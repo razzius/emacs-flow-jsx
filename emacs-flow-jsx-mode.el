@@ -38,15 +38,84 @@
   :link '(url-link :tag "Gitlab" "https://gitlab.com/rudolfo/emacs-flow-jsx")
   :link '(emacs-commentary-link :tag "Commentary" "flow-jsx-mode"))
 
+(defface flow-jsx-jsx
+  '((t (:foreground "goldenrod")))
+  "Face for JSX syntax.")
 
-;; TODO: define flow-jsx-font-lock-keywords, based on https://github.com/omouse/angularjs-mode/blob/master/angular-mode.el#L137
+(defface flow-jsx-flow-type-annotation
+  '((t (:box "goldenrod")))
+  "Face for Flow Type Annotations syntax.")
+
+(defun flow-jsx-buffer-uses-flow-p (buffer)
+  "Returns T if the `BUFFER' is using the Flow type
+checker. Otherwise returns NIL."
+  (save-excursion
+    (goto-char (point-min))
+    (not (null (search-forward "@flow" nil t)))))
+
+;; Using it for the current buffer:
+;;   (flow-jsx-buffer-uses-flow-p (current-buffer))
+
+(setq flow-jsx-keyword-list
+      '("const"
+        "import"
+        "from"
+        "type"
+        "export"
+        "export default"
+        "class"
+        "extends"
+        "this"
+        "if"
+        "else"
+        "for"
+        "while"
+        "let"
+        "false"
+        "true"
+        "=>"
+        ))
+
+(setq flow-jsx-font-lock-list
+      '(
+        ("import {?\\(.+?\\)}? from" 1 font-lock-variable-name-face)
+        ("import .* from \\(.*\\);" 1 font-lock-string-face)
+        ("import \\('.+'\\);" 1 font-lock-string-face)
+        ("undefined" 0 font-lock-constant-face)
+        ("null" 0 font-lock-constant-face)
+        ("const \\(.+?\\) =" 1 font-lock-variable-name-face)
+        ("type \\(.+?\\) =" 1 font-lock-variable-name-face)
+        ;; Strings
+        ("'.*'" 0 font-lock-string-face)
+        ("\".*\"" 0 font-lock-string-face)
+        ;; Classes
+        ("class" (0 font-lock-keyword-face)
+         ("\\(.*\\) extends" nil nil (1 font-lock-variable-name-face))
+         )
+        ;; Methods
+        ("\\(.*\\)(.*{" 1 font-lock-variable-name-face)
+        ;; Flow Type Annotations
+        ("\\w+<.*>" 0 'flow-jsx-flow-type-annotation)
+        ("void" 0 'flow-jsx-flow-type-annotation)
+        ("(.*\\: \\([A-Z]\w*\\)" 1 'flow-jsx-flow-type-annotation)
+        ;; JSX
+        ("<\\w+" (0 'flow-jsx-jsx)         
+         (">" nil nil (0 'flow-jsx-jsx))
+         )
+        ("/>" 0 'flow-jsx-jsx)
+        ("</\\w+>" 0 'flow-jsx-jsx)
+        ("\\(\\w+\\)="  1 'flow-jsx-jsx)
+        ))
 
 ;;;###autoload
-(define-derived-mode flow-jsx-mode java-mode
-  "JavaScript[FlowJSX]"
-  "Major mode for Flow and JSX (JavaScript).
-\\{java-mode-map}"
-  (font-lock-add-keywords nil flow-jsx-font-lock-keywords))
+(define-generic-mode flow-jsx-mode
+  '(("//" . nil)
+    ("/*" . "*/"))
+  flow-jsx-keyword-list
+  flow-jsx-font-lock-list
+  '()
+  '()
+  "Major mode for Flow and JSX (JavaScript).")
 
 (provide 'flow-jsx-mode)
 ;;; emacs-flow-jsx-mode.el ends here
