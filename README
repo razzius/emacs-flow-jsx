@@ -11,9 +11,9 @@ Load the emacs file:
 
     (load-file "/path/to/emacs-flow-jsx/emacs-flow-jsx-mode.el")
 
-Add a hook for javascript:
+Add the flow-jsx-mode to the auto-mode-alist:
 
-    ;; TODO
+    (add-to-list 'auto-mode-alist '("\\.js\\'" . flow-jsx-mode))
 
 As you can use, there are functions for checking whether a file uses
 the flow type annotations or the flow type checker and whether it uses
