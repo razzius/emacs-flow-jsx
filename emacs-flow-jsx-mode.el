@@ -75,6 +75,7 @@ checker. Otherwise returns NIL."
         "return"
         "function"
         "static"
+        "await"
         ))
 
 (setq flow-jsx-font-lock-list
